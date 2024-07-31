@@ -6,8 +6,6 @@
                 <a class="nav-link" href="{{ route('home') }}"><i class="icon-speedometer"></i>dashboard</a>
             </li>
 
-
-
                 @foreach(getModuleRoutes() as $route)
 
                     @if(isEnableModules(strtoupper($route->uri)))
@@ -24,7 +22,6 @@
                     @endif
 
                 @endforeach
-
 
 
             <li class="nav-item nav-dropdown">
