@@ -15,11 +15,11 @@ class UploadModuleRepo implements UploadModuleContract
 {
 
     public function __construct(
-        public EnableModuleCommand $enableModuleCommand,
-        public MigrateModuleCommand $migrateModuleCommand,
-        public PublishConfigModuleCommand $publishConfigModuleCommand,
-        public PublishAssetsModuleCommand $publishAssetsModuleCommand,
-        public ClearCacheModuleCommand $clearCacheModuleCommand
+        public      EnableModuleCommand          $enableModuleCommand,
+        public      MigrateModuleCommand         $migrateModuleCommand,
+        public      PublishConfigModuleCommand   $publishConfigModuleCommand,
+        public      PublishAssetsModuleCommand   $publishAssetsModuleCommand,
+        public      ClearCacheModuleCommand      $clearCacheModuleCommand
     ){}
 
     public function upload($request){
@@ -57,7 +57,6 @@ class UploadModuleRepo implements UploadModuleContract
         }
 
     }
-
     private function getModuleName($module){
         return pathinfo($module->getClientOriginalName(), PATHINFO_FILENAME);
     }

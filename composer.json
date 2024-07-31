@@ -30,7 +30,8 @@
             "Modules\\": "Modules/"
         },
         "files": [
-            "app/helpers.php"
+            "app/helpers.php",
+            "app/translate.php"
         ]
     },
 

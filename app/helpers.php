@@ -57,3 +57,9 @@ if(!function_exists('isEnableModules')){
         }
     }
 }
+
+if(!function_exists('langModule')){
+    function langModule(){
+        return require base_path('app/translate.php');
+    }
+}
