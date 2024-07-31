@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Nwidart\Modules\Facades\Module;
 
 if(!function_exists('getModuleRoutes')){
-    function getModuleRoutes(){
+    function getModuleRoutes() :?array{
         $excludeRoutes = [
             'sanctum/csrf-cookie',
             '_ignition/health-check',
@@ -27,7 +27,9 @@ if(!function_exists('getModuleRoutes')){
 
         $routes = Route::getRoutes();
         $routArr = [];
+
         foreach ($routes as $route){
+
             $uri = $route->uri();
             $exclude = false;
 
@@ -49,7 +51,7 @@ if(!function_exists('getModuleRoutes')){
 }
 
 if(!function_exists('isEnableModules')){
-    function isEnableModules(string $module){
+    function isEnableModules(string $module) :bool{
         if(Module::find($module)){
             return Module::isEnabled($module);
         }
