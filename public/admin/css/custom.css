@@ -1,0 +1,27 @@
+.btn{
+    border-radius: 20px;
+}
+.card {
+    box-shadow: 2px 2px 5px rgb(0, 0, 0);
+    background: #000000;
+}
+.card-title, .card-text{
+    color: #fff;
+}
+.card-body {
+    background: #000000;
+}
+.card-footer {
+    margin-top: 10px;
+    background: #171717;
+    border-bottom-left-radius: 30px !important;
+    border-bottom-right-radius: 30px !important;
+}
+.card-header {
+    border-radius: 30px !important;
+    border: 0;
+    background: #000000;
+}
+.card-header img {
+    border-radius: 30px;
+}
