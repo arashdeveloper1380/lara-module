@@ -24,4 +24,14 @@ class CreateCategoryCommand{
         return $this->status;
     }
 
+    public function arr() :array{
+        return [
+            "name" => $this->name,
+            "slug" => $this->slug,
+            "status" => $this->status
+        ];
+    }
+
+
+
 }
