@@ -5,7 +5,7 @@
         ایجاد دسته بندی
     </h2><br>
 
-    <form action="{{ route('category.store') }}" method="post">
+    <form action="{{ route('category.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form-group">
@@ -25,6 +25,14 @@
                     <option value="1">فعال</option>
                     <option value="2">غیر فعال</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="name">
+                    تصویر دسته بندی
+                    @error('image') <span style="color: crimson">{{ $message }}</span> @enderror
+                </label><br>
+                <input type="file" name="image">
             </div>
 
         </div>

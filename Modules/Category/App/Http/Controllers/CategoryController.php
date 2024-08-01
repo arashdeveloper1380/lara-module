@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\src\Commands\Create\CreateCategoryCommand;
+use Modules\Category\src\Helper;
 use Modules\Category\src\Services\CategoryService;
 use Nwidart\Modules\Facades\Module;
 
@@ -41,18 +42,28 @@ class CategoryController extends Controller
         $validate = $request->validate([
             'name'      => 'required',
             'status'    => 'required',
+            'image'     => 'nullable|max:2048',
         ]);
+
+        $image = Helper::uploadImage(
+            'image',
+            base_path('Modules/Category/public/uploads/category/'),
+            $request
+        );
+
+        $imagePath = "Modules/Category/public/uploads/category/" . $image;
 
         $command = new CreateCategoryCommand(
             $validate['name'],
-            $validate['name'],
-            $validate['status']
+            $validate['name'], // generate slug by name
+            $validate['status'],
+            $imagePath
         );
 
-        $create = app(CategoryService::class)->createCategory($command);
+        $create = CategoryService::createCategory($command);
 
         if($create){
-            dd("created");
+            return redirect()->route('category.index');
         }else{
             dd("not created");
         }
