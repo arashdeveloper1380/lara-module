@@ -31,7 +31,7 @@
         },
         "files": [
             "app/helpers.php",
-            "app/translate.php"
+            "Modules/Category/translate.php"
         ]
     },
 

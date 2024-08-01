@@ -59,7 +59,7 @@ if(!function_exists('isEnableModules')){
 }
 
 if(!function_exists('langModule')){
-    function langModule(){
-        return require base_path('app/translate.php');
+    function langModule(string $module){
+        return require base_path("Modules/{$module}/translate.php");
     }
 }

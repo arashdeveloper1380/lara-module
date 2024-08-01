@@ -11,10 +11,10 @@
                     @if(isEnableModules(strtoupper($route->uri)))
 
                         <li class="nav-item nav-dropdown">
-                            <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i>{{ langModule()[$route->uri] }}</a>
+                            <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i>{{ langModule(strtoupper($route->uri))[$route->uri] }}</a>
                             <ul class="nav-dropdown-items">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route($route->action['as']) }}"><i class="icon-puzzle"></i>{{ langModule()[$route->action['as']] }}</a>
+                                    <a class="nav-link" href="{{ route($route->action['as']) }}"><i class="icon-puzzle"></i>{{ langModule(strtoupper($route->uri))[$route->action['as']] }}</a>
                                 </li>
                             </ul>
                         </li>

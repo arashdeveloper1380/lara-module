@@ -18,9 +18,8 @@ class CategoryController extends Controller
      */
     public function index(){
         $isEnable = Module::isEnabled('category');
-
         if($isEnable){
-            return view('category::index', compact('isEnable'));
+            return view('category::index');
         }else{
             return redirect('/');
         }
