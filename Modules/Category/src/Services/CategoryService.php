@@ -8,15 +8,14 @@ use Modules\Category\src\Contracts\Repositories\CreateCategoryContract;
 
 class CategoryService{
 
-    private array $command = [
+    private static array $command = [
         CreateCategoryCommand::class => CreateCategoryCommandHandler::class
     ];
     public static function createCategory(
         CreateCategoryCommand $command
     ) {
-        return
-            app(CreateCategoryCommandHandler::class)
-                ->handle(new CreateCategoryCommand($command->arr()));
+        $handleClass = self::$command[CreateCategoryCommand::class];
+        return app($handleClass)->handle($command);
     }
 
 }

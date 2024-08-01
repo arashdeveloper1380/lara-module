@@ -13,11 +13,11 @@ class CreateCategoryCommand{
     ){}
 
     public function getName(): string{
-        return htmlentities($this->name, ENT_QUOTES, 'UTF-8');
+        return $this->name;
     }
 
     public function getSlug(): string{
-        return Helper::slugGenerate($this->name);
+        return $this->name;
     }
 
     public function getStatus(): bool{
@@ -26,9 +26,9 @@ class CreateCategoryCommand{
 
     public function arr() :array{
         return [
-            "name" => $this->name,
-            "slug" => $this->slug,
-            "status" => $this->status
+            "name"      => htmlentities($this->name, ENT_QUOTES, 'UTF-8'),
+            "slug"      => Helper::slugGenerate($this->slug),
+            "status"    => (bool) $this->status
         ];
     }
 

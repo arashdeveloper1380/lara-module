@@ -40,20 +40,21 @@ class CategoryController extends Controller
 
         $validate = $request->validate([
             'name'      => 'required',
-            'slug'      => 'required',
             'status'    => 'required',
         ]);
 
         $command = new CreateCategoryCommand(
             $validate['name'],
-            $validate['slug'],
+            $validate['name'],
             $validate['status']
         );
 
-        $create = CategoryService::createCategory($command);
+        $create = app(CategoryService::class)->createCategory($command);
 
         if($create){
             dd("created");
+        }else{
+            dd("not created");
         }
 
     }
