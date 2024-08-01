@@ -17,12 +17,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
-        $isEnable = Module::isEnabled('category');
-        if($isEnable){
-            return view('category::index');
-        }else{
-            return redirect('/');
-        }
+        return $this->viewWhenEnableModule('Category','category::index');
     }
 
     /**
@@ -30,7 +25,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category::create');
+        return $this->viewWhenEnableModule('Category','category::create');
+//        return view('category::create');
     }
 
     /**
