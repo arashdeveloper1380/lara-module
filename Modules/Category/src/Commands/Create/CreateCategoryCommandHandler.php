@@ -4,9 +4,7 @@ namespace Modules\Category\src\Commands\Create;
 
 use Modules\Category\src\Contracts\Repositories\CreateCategoryContract;
 
-class CreateCommandHandler
-{
-
+class CreateCategoryCommandHandler{
     public function __construct(
         protected CreateCategoryContract $contract
     ){}
@@ -16,5 +14,4 @@ class CreateCommandHandler
             $command
         );
     }
-
 }

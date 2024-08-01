@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Category\src\Commands\Create\CreateCategoryCommand;
+use Modules\Category\src\Services\CategoryService;
 use Nwidart\Modules\Facades\Module;
 
 class CategoryController extends Controller
@@ -34,9 +36,26 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
-    {
-        //
+    public function store(Request $request): RedirectResponse{
+
+        $validate = $request->validate([
+            'name'      => 'required',
+            'slug'      => 'required',
+            'status'    => 'required',
+        ]);
+
+        $command = new CreateCategoryCommand(
+            $validate['name'],
+            $validate['slug'],
+            $validate['status']
+        );
+
+        $create = CategoryService::createCategory($command);
+
+        if($create){
+            dd("created");
+        }
+
     }
 
     /**
