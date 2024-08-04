@@ -9,36 +9,35 @@ use Illuminate\Http\Response;
 use Modules\Category\src\Commands\Create\CreateCategoryCommand;
 use Modules\Category\src\Helper;
 use Modules\Category\src\Services\CategoryService;
+use Modules\Category\src\Services\ValidationService;
 use Nwidart\Modules\Facades\Module;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+        protected ValidationService $validationService
+    ){}
+
     public function index(){
         return $this->viewWhenEnableModule('Category','category::index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+
+    public function create(){
         return $this->viewWhenEnableModule('Category','category::create');
 //        return view('category::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request): RedirectResponse{
 
-        $validate = $request->validate([
-            'name'      => 'required',
-            'status'    => 'required',
-            'image'     => 'nullable|max:2048',
-        ]);
+//        $validate = $request->validate([
+//            'name'      => 'required',
+//            'status'    => 'required',
+//            'image'     => 'nullable|max:2048',
+//        ]);
+
+        $dataValidate = $this->validationService->validate($request->all());
 
         $image = Helper::uploadImage(
             'image',
@@ -49,9 +48,9 @@ class CategoryController extends Controller
         $imagePath = "Modules/Category/public/uploads/category/" . $image;
 
         $command = new CreateCategoryCommand(
-            $validate['name'],
-            $validate['name'], // generate slug by name
-            $validate['status'],
+            $dataValidate['name'],
+            $dataValidate['name'], // generate slug by name
+            $dataValidate['status'],
             $imagePath
         );
 
@@ -65,33 +64,23 @@ class CategoryController extends Controller
 
     }
 
-    /**
-     * Show the specified resource.
-     */
     public function show($id)
     {
         return view('category::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
     {
         return view('category::edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, $id): RedirectResponse
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         //

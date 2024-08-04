@@ -10,6 +10,7 @@ class CategoryService{
     private static array $command = [
         CreateCategoryCommand::class => CreateCategoryCommandHandler::class
     ];
+
     public static function createCategory(CreateCategoryCommand $command) {
 
         $handleClass = self::$command[CreateCategoryCommand::class];

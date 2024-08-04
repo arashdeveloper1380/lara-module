@@ -13,7 +13,7 @@
                     عنوان دسته بندی
                     @error('name') <span style="color: crimson">{{ $message }}</span> @enderror
                 </label>
-                <input type="text" name="name" required class="form-control" placeholder="عنوان دسته بندی را وارد کنید">
+                <input type="text" name="name" class="form-control" placeholder="عنوان دسته بندی را وارد کنید">
             </div>
 
             <div class="form-group">
