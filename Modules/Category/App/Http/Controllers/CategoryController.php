@@ -14,18 +14,34 @@ use Nwidart\Modules\Facades\Module;
 
 class CategoryController extends Controller
 {
+
+    private string $uploadPath = 'Modules/Category/public/uploads/category/';
+
+    private string $currentModel = 'Category';
+
+    private array $views = [
+        'index'     => 'category::index',
+        'create'    => 'category::create',
+        'show'      => 'category::show',
+        'edit'      => 'category::edit'
+    ];
+
     public function __construct(
         protected ValidationService $validationService
     ){}
 
     public function index(){
-        return $this->viewWhenEnableModule('Category','category::index');
+        return $this->viewWhenEnableModule(
+            $this->currentModel,
+            $this->views['index']
+        );
     }
 
-
     public function create(){
-        return $this->viewWhenEnableModule('Category','category::create');
-//        return view('category::create');
+        return $this->viewWhenEnableModule(
+            $this->currentModel,
+            $this->views['create']
+        );
     }
 
 
@@ -37,15 +53,17 @@ class CategoryController extends Controller
 //            'image'     => 'nullable|max:2048',
 //        ]);
 
-        $dataValidate = $this->validationService->validate($request->all());
+        $dataValidate = $this->validationService->validate(
+            $request->all()
+        );
 
         $image = Helper::uploadImage(
             'image',
-            base_path('Modules/Category/public/uploads/category/'),
+            base_path($this->uploadPath),
             $request
         );
 
-        $imagePath = "Modules/Category/public/uploads/category/" . $image;
+        $imagePath = $this->uploadPath . $image;
 
         $command = new CreateCategoryCommand(
             $dataValidate['name'],
