@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('desc');
             $table->string('table_name');
-            $table->text('support');
+            $table->text('support'); // save array [title, desc, thumbnail, excerpt, slider]
             $table->tinyInteger('status')->default(1);
             $table->text('fields')->nullable();
             $table->timestamps();
