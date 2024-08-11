@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Category\App\Jobs\CreateCategoryJob;
 use Modules\Category\src\Commands\Create\CreateCategoryCommand;
 use Modules\Category\src\Helper;
 use Modules\Category\src\Services\CategoryService;
@@ -27,7 +28,7 @@ class CategoryController extends Controller
     ];
 
     public function __construct(
-        protected ValidationService $validationService
+        protected ValidationService $validationService // use pipeline
     ){}
 
     public function index(){
@@ -47,12 +48,6 @@ class CategoryController extends Controller
 
     public function store(Request $request): RedirectResponse{
 
-//        $validate = $request->validate([
-//            'name'      => 'required',
-//            'status'    => 'required',
-//            'image'     => 'nullable|max:2048',
-//        ]);
-
         $dataValidate = $this->validationService->validate(
             $request->all()
         );
@@ -66,13 +61,13 @@ class CategoryController extends Controller
         $imagePath = $this->uploadPath . $image;
 
         $command = new CreateCategoryCommand(
-            $dataValidate['name'],
-            $dataValidate['name'], // generate slug by name
-            $dataValidate['status'],
-            $imagePath
+            name : $dataValidate['name'],
+            slug : $dataValidate['name'], // generate slug by name
+            status : $dataValidate['status'],
+            image : $imagePath
         );
 
-        $create = CategoryService::createCategory($command);
+        $create = CreateCategoryJob::dispatch($command);
 
         if($create){
             return redirect()->route('category.index');

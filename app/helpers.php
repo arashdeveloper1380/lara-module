@@ -19,10 +19,10 @@ if(!function_exists('getModuleRoutes')){
             'export-module/{category}',
             'modules/upload-module',
             'modules/store-upload-module',
-            'api/v1/category',
-            'category/{category}',
-            'category/{category}/edit',
-            'category/create'
+            "api/v1/category",
+            "category/{category}",
+            "category/{category}/edit",
+            "category/category"
         ];
 
         $routes = Route::getRoutes();
@@ -61,5 +61,14 @@ if(!function_exists('isEnableModules')){
 if(!function_exists('langModule')){
     function langModule(string $module){
         return require base_path("Modules/{$module}/translate.php");
+    }
+}
+
+if(!function_exists('allModules')){
+    function allModules() : ? string{
+        $modules = Module::allEnabled();
+        foreach ($modules as $key => $value){
+            return $value;
+        }
     }
 }
