@@ -4,7 +4,20 @@ use Illuminate\Support\Facades\Route;
 use Nwidart\Modules\Facades\Module;
 
 if(!function_exists('getModuleRoutes')){
+
     function getModuleRoutes() :?array{
+        
+        $modulesRoutes = require_once base_path("app/registerModules.php");
+
+        $dynamicRoutes = [];
+
+        foreach ($modulesRoutes as $route){
+            $dynamicRoutes[] = "api/v1/$route";
+            $dynamicRoutes[] = "$route/{$route}";
+            $dynamicRoutes[] = "$route/{$route}/edit";
+            $dynamicRoutes[] = "$route/create";
+        }
+
         $excludeRoutes = [
             'sanctum/csrf-cookie',
             '_ignition/health-check',
@@ -19,11 +32,9 @@ if(!function_exists('getModuleRoutes')){
             'export-module/{category}',
             'modules/upload-module',
             'modules/store-upload-module',
-            "api/v1/category",
-            "category/{category}",
-            "category/{category}/edit",
-            "category/category"
         ];
+
+        $mergedRoutes = array_merge($dynamicRoutes, $excludeRoutes);
 
         $routes = Route::getRoutes();
         $routArr = [];
@@ -33,7 +44,7 @@ if(!function_exists('getModuleRoutes')){
             $uri = $route->uri();
             $exclude = false;
 
-            foreach ($excludeRoutes as $pattern) {
+            foreach ($mergedRoutes as $pattern) {
                 if (strpos($uri, $pattern) !== false) {
                     $exclude = true;
                     break;
@@ -64,11 +75,19 @@ if(!function_exists('langModule')){
     }
 }
 
-if(!function_exists('allModules')){
-    function allModules() : ? string{
-        $modules = Module::allEnabled();
-        foreach ($modules as $key => $value){
-            return $value;
+
+if (!function_exists('getActiveModules')) {
+    function getActiveModules(): array{
+        $activeModules = [];
+
+        $modules = Module::all();
+
+        foreach ($modules as $module) {
+            if ($module->isEnabled()) {
+                $activeModules[] = $module->getName();
+            }
         }
+
+        return $activeModules;
     }
 }
