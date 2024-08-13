@@ -6,7 +6,7 @@ use Nwidart\Modules\Facades\Module;
 if(!function_exists('getModuleRoutes')){
 
     function getModuleRoutes() :?array{
-        
+
         $modulesRoutes = require_once base_path("app/registerModules.php");
 
         $dynamicRoutes = [];
