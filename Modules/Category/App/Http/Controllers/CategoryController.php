@@ -48,8 +48,24 @@ class CategoryController extends Controller
         );
     }
 
+    private function setDataOnCommand($validate, $imagePath){
+        return new CreateCategoryCommand(
+            name    : $validate['name'],
+            slug    : $validate['name'], // generate slug by name
+            status  : $validate['status'],
+            image   : $imagePath
+        );
+    }
 
-    public function store(Request $request): RedirectResponse{
+    private function setDataOnCommandOutBox($outboxData){
+        return new CreateCategoryOutBoxCommand(
+            type            : "category_created",
+            payload         : json_encode($outboxData),
+            processed_at    : Carbon::now()
+        );
+    }
+
+    public function store(Request $request): RedirectResponse|\Exception{
 
         $dataValidate = $this->validationService->validate(
             $request->all()
@@ -63,35 +79,18 @@ class CategoryController extends Controller
 
         //create category on db
         $imagePath = $this->uploadPath . $image;
-        $command = new CreateCategoryCommand(
-            name    : $dataValidate['name'],
-            slug    : $dataValidate['name'], // generate slug by name
-            status  : $dataValidate['status'],
-            image   : $imagePath
-        );
+        $command = $this->setDataOnCommand($dataValidate, $imagePath);
         $create = CreateCategoryJob::dispatch($command);
 
-        //create category on db but pattern outbox
-        $outboxData = [
-            $dataValidate['name'],
-            $dataValidate['name'], // generate slug by name
-            $dataValidate['status'],
-            $imagePath
-        ];
 
-        $commandOutBoxCategory = new CreateCategoryOutBoxCommand(
-            type: "category_created",
-            payload: json_encode($outboxData),
-            processed_at: Carbon::now()
-        );
+        //create category on db but pattern outbox
+        $commandOutBoxCategory = $this->setDataOnCommandOutBox($command);
         CreateCategoryOutBoxJob::dispatch($commandOutBoxCategory);
 
-        if($create){
-            return redirect()->route('category.index');
-        }else{
+        if(!$create){
             throw new \Exception("Failed Created Category !!!");
         }
-
+        return redirect()->route('category.index');
     }
 
     public function show($id){

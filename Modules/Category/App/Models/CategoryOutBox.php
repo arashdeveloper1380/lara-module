@@ -13,8 +13,4 @@ class CategoryOutBox extends Model
     protected $table = 'category_outbox';
     protected $guarded = [];
 
-    protected $casts = [
-        'payload' => 'array'
-    ];
-
 }
