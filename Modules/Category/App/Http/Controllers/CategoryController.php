@@ -61,7 +61,7 @@ class CategoryController extends Controller
         return new CreateCategoryOutBoxCommand(
             type            : "category_created",
             payload         : json_encode($outboxData),
-            processed_at    : Carbon::now()
+            processed_at    : null
         );
     }
 

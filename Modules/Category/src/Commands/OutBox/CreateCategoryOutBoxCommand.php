@@ -2,13 +2,12 @@
 
 namespace Modules\Category\src\Commands\OutBox;
 
-
 class CreateCategoryOutBoxCommand{
 
     public function __construct(
         public readonly string|int $type,
         public readonly mixed $payload,
-        public readonly string $processed_at,
+        public readonly ?string $processed_at,
     ){}
 
     public function getType() : string|int{
@@ -19,7 +18,7 @@ class CreateCategoryOutBoxCommand{
         return $this->payload;
     }
 
-    public function getProcessed_at() : string|int{
+    public function getProcessed_at() : string|int|null{
         return $this->processed_at;
     }
 
