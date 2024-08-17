@@ -2,7 +2,6 @@
 
 namespace CrudGenerator;
 
-class Helper
-{
-
+class Helper{
+    // soon
 }

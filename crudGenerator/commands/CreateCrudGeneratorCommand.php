@@ -4,7 +4,7 @@ namespace CrudGenerator\commands;
 
 use CrudGenerator\Enums\StatusEnum;
 
-class CreateCrudGeneratorCommand{
+final class CreateCrudGeneratorCommand{
 
     public function __construct(
         public readonly string $name,
@@ -37,6 +37,28 @@ class CreateCrudGeneratorCommand{
 
     public function getStatus() : StatusEnum{
         return $this->status;
+    }
+
+    public function serialize() :array{
+        return [
+            'name'      => $this->name,
+            'slug'      => $this->slug,
+            'desc'      => $this->desc,
+            'tableName' => $this->table_name,
+            'support'   => $this->support,
+            'status'    => $this->status,
+        ];
+    }
+
+    public function deserialize(array $data) : self{
+        return new self(
+            $data['name'],
+            $data['slug'],
+            $data['desc'],
+            $data['tableName'],
+            $data['support'],
+            $data['status']
+        );
     }
 
 }

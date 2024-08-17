@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\Category\src\Commands\Create\CreateCategoryCommand;
 use Modules\Category\src\Commands\Create\CreateCategoryCommandHandler;
+use Modules\Category\src\Commands\OutBox\CreateCategoryOutBoxCommand;
+use Modules\Category\src\Contracts\OutBox\CreateCategoryOutBoxContract;
 use Modules\Category\src\Contracts\Repositories\CreateCategoryContract;
+use Modules\Category\src\OutBoxRepository\Write\CreateCategoryOutBoxRepository;
 use Modules\Category\src\Repositories\Write\CreateCategoryRepository;
 
 class CategoryServiceProvider extends ServiceProvider
@@ -20,8 +23,13 @@ class CategoryServiceProvider extends ServiceProvider
     protected string $moduleNameLower = 'category';
 
     private static array $commands = [
-        CreateCategoryCommand::class => CreateCategoryCommandHandler::class,
-        CreateCategoryContract::class => CreateCategoryRepository::class
+        CreateCategoryCommand::class  => CreateCategoryCommandHandler::class,
+        CreateCategoryContract::class => CreateCategoryRepository::class,
+
+        //CategoryOutBox DI
+        CreateCategoryOutBoxCommand::class  => CreateCategoryCommandHandler::class,
+        CreateCategoryOutBoxContract::class => CreateCategoryOutBoxRepository::class
+
     ];
     /**
      * Boot the application events.
@@ -35,6 +43,7 @@ class CategoryServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
 
+        //Custom DI boot
         foreach (self::$commands as $command => $handler){
             $this->app->singleton($command, $handler);
         }

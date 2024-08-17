@@ -3,11 +3,14 @@
 namespace Modules\Category\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\App\Jobs\CreateCategoryJob;
+use Modules\Category\App\Jobs\CreateCategoryOutBoxJob;
 use Modules\Category\src\Commands\Create\CreateCategoryCommand;
+use Modules\Category\src\Commands\OutBox\CreateCategoryOutBoxCommand;
 use Modules\Category\src\Helper;
 use Modules\Category\src\Services\CategoryService;
 use Modules\Category\src\Services\ValidationService;
@@ -58,44 +61,54 @@ class CategoryController extends Controller
             $request
         );
 
+        //create category on db
         $imagePath = $this->uploadPath . $image;
-
         $command = new CreateCategoryCommand(
-            name : $dataValidate['name'],
-            slug : $dataValidate['name'], // generate slug by name
-            status : $dataValidate['status'],
-            image : $imagePath
+            name    : $dataValidate['name'],
+            slug    : $dataValidate['name'], // generate slug by name
+            status  : $dataValidate['status'],
+            image   : $imagePath
         );
-
         $create = CreateCategoryJob::dispatch($command);
+
+        //create category on db but pattern outbox
+        $outboxData = [
+            $dataValidate['name'],
+            $dataValidate['name'], // generate slug by name
+            $dataValidate['status'],
+            $imagePath
+        ];
+
+        $commandOutBoxCategory = new CreateCategoryOutBoxCommand(
+            type: "category_created",
+            payload: json_encode($outboxData),
+            processed_at: Carbon::now()
+        );
+        CreateCategoryOutBoxJob::dispatch($commandOutBoxCategory);
 
         if($create){
             return redirect()->route('category.index');
         }else{
-            dd("not created");
+            throw new \Exception("Failed Created Category !!!");
         }
 
     }
 
-    public function show($id)
-    {
+    public function show($id){
         return view('category::show');
     }
 
 
-    public function edit($id)
-    {
+    public function edit($id){
         return view('category::edit');
     }
 
 
-    public function update(Request $request, $id): RedirectResponse
-    {
+    public function update(Request $request, $id): RedirectResponse{
         //
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id){
         //
     }
 }

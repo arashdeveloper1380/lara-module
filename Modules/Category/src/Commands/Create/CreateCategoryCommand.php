@@ -4,7 +4,7 @@ namespace Modules\Category\src\Commands\Create;
 
 use Modules\Category\src\Helper;
 
-class CreateCategoryCommand{
+final class CreateCategoryCommand{
 
     public function __construct(
         public readonly string  $name,
@@ -36,6 +36,15 @@ class CreateCategoryCommand{
             "status"    => (bool) $this->status,
             "image"     => $this->image
         ];
+    }
+
+    public function deserialize(array $data) : self{
+        return new self(
+            $data['name'],
+            $data['slug'],
+            $data['status'],
+            $data['image']
+        );
     }
 
 }
