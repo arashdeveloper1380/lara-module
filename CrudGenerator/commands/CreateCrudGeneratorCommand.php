@@ -4,15 +4,15 @@ namespace CrudGenerator\commands;
 
 use CrudGenerator\Enums\StatusEnum;
 
-final class CreateCrudGeneratorCommand{
+final readonly class CreateCrudGeneratorCommand{
 
     public function __construct(
-        public readonly string $name,
-        public readonly string $slug,
-        public readonly string $desc,
-        public readonly string $table_name,
-        public readonly array $support,
-        public readonly StatusEnum $status,
+        public string     $name,
+        public string     $slug,
+        public string     $desc,
+        public string     $table_name,
+        public array      $support,
+        public StatusEnum $status,
     ){}
 
     public function getName() : string{
@@ -39,7 +39,7 @@ final class CreateCrudGeneratorCommand{
         return $this->status;
     }
 
-    public function serialize() :array{
+    public function arr() :array{
         return [
             'name'      => $this->name,
             'slug'      => $this->slug,

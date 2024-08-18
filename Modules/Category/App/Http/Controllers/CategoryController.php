@@ -66,7 +66,6 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request): RedirectResponse|\Exception{
-
         $dataValidate = $this->validationService->validate(
             $request->all()
         );
@@ -82,10 +81,11 @@ class CategoryController extends Controller
         $command = $this->setDataOnCommand($dataValidate, $imagePath);
         $create = CreateCategoryJob::dispatch($command);
 
-
         //create category on db but pattern outbox
-        $commandOutBoxCategory = $this->setDataOnCommandOutBox($command);
-        CreateCategoryOutBoxJob::dispatch($commandOutBoxCategory);
+        if(config('category.useOutBox')){
+            $commandOutBoxCategory = $this->setDataOnCommandOutBox($command);
+            CreateCategoryOutBoxJob::dispatch($commandOutBoxCategory);
+        }
 
         if(!$create){
             throw new \Exception("Failed Created Category !!!");

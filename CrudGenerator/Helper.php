@@ -3,5 +3,5 @@
 namespace CrudGenerator;
 
 class Helper{
-    // soon
+    // coming
 }

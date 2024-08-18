@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Category',
+    'name'      => 'Category',
+    'useOutBox' => true
 ];
