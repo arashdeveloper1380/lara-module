@@ -1,6 +1,6 @@
 <?php
 
-namespace CrudGenerator\Contracts;
+namespace CrudGenerator\Contracts\Repositories;
 
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
 

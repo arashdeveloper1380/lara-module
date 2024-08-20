@@ -71,7 +71,7 @@
                 </label>
                 <select name="status" class="form-control">
                     <option value="1">فعال</option>
-                    <option value="0">غیر فعای</option>
+                    <option value="0">غیر فعال</option>
                 </select>
             </div>
 

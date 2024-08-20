@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Services\UploadModule\Contracts\UploadModuleContract;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Nwidart\Modules\Facades\Module;
 
 class ModuleManagementController extends Controller
 {
@@ -15,11 +15,11 @@ class ModuleManagementController extends Controller
         public UploadModuleContract $contract
     ){}
 
-    public function uploadModule(){
+    public function uploadModule() :View{
         return view('modules.upload');
     }
 
-    public function storeUploadModule(Request $request){
+    public function storeUploadModule(Request $request) :RedirectResponse{
 
         $request->validate([
             'module' => 'required|file|mimes:zip|max:2048',

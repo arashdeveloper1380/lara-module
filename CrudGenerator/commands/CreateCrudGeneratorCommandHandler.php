@@ -4,7 +4,7 @@ namespace CrudGenerator\commands;
 
 use CrudGenerator\Contracts\CrudRepositoryContract;
 
-class CreateCrudGeneratorCommandHanlder
+class CreateCrudGeneratorCommandHandler
 {
     public function __construct(
         public CrudRepositoryContract $contract
