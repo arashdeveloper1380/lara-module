@@ -10,16 +10,16 @@ use Modules\Category\src\Pipelines\CreateCategory\ValidateStatus;
 class ValidationService{
     public function validate(array $data){
         return
-            app(Pipeline::class)
-                ->send($data)
-                ->through([
-                    ValidateName::class,
-                    ValidateStatus::class,
-                    ValidateImage::class,
-                ])
-                ->then(function ($data){
-                    return $data;
-                });
+        app(Pipeline::class)
+            ->send($data)
+            ->through([
+                ValidateName::class,
+                ValidateStatus::class,
+                ValidateImage::class,
+            ])
+            ->then(function ($data){
+                return $data;
+            });
     }
 
 }

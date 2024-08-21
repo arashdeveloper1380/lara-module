@@ -64,3 +64,5 @@ Route::prefix('crud-generators')->group(function (){
     });
 
 });
+
+require_once base_path('routes/crud_routes.php');

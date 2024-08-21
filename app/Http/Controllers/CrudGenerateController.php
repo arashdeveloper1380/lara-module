@@ -1,18 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\CrudGenerator;
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
 use CrudGenerator\Contracts\Repositories\CrudRepositoryContract;
 use CrudGenerator\Enums\DeveloperModeEnum;
 use CrudGenerator\Enums\StatusEnum;
-use CrudGenerator\Helper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
-use Modules\Category\src\Commands\Create\CreateCategoryCommand;
 
 class CrudGenerateController extends Controller {
 
@@ -38,14 +35,14 @@ class CrudGenerateController extends Controller {
         $supports = $request->get('support', []);
 
         if($developMode == 1){
-            $this->createMigrationFileWhenDeveloperMode($table_name, $supports); // make schema
+            $this->createMigrationFileWhenDeveloperMode($table_name, $supports);
             $this->migrateCommand($table_name);
         }else{
             $this->generateTable($table_name, $supports);
         }
 
-        $status = StatusEnum::from((int) $request->get('status'));
-        $developMode = DeveloperModeEnum::from($developMode);
+        $status         = StatusEnum::from((int) $request->get('status'));
+        $developMode    = DeveloperModeEnum::from($developMode);
 
         $command = new CreateCrudGeneratorCommand(
             $request->get('name'),
@@ -81,6 +78,7 @@ class CrudGenerateController extends Controller {
     private function generateMigrationName($request) :string{
         return 'create_' . strtolower($request->get('name')) . '_table';
     }
+
     private function generateTableName($request) :string{
         return strtolower($request->get('name'));
     }

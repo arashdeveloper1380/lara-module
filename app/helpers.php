@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\DB;
 
 if(!function_exists('getModuleRoutes')){
 
@@ -62,7 +63,7 @@ if(!function_exists('getModuleRoutes')){
 }
 
 if(!function_exists('isEnableModules')){
-    function isEnableModules(string $module) :bool{
+    function isEnableModules(string $module){
         if(Module::find($module)){
             return Module::isEnabled($module);
         }
@@ -94,12 +95,17 @@ if (!function_exists('getActiveModules')) {
 
 if(!function_exists('slugGenerator')){
     function slugGenerator($name){
-
         $string = str_replace('-','',$name);
-
         $string = str_replace('/','',$string);
-
         return preg_replace('/\s+/','-',$string);
+    }
+}
 
+if(!function_exists('crudRoutes')){
+    function crudRoutes(){
+        return DB::table('crud_generator')
+            ->where('status', 1)
+            ->select('slug')
+            ->get();
     }
 }
