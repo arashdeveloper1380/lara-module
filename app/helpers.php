@@ -91,3 +91,15 @@ if (!function_exists('getActiveModules')) {
         return $activeModules;
     }
 }
+
+if(!function_exists('slugGenerator')){
+    function slugGenerator($name){
+
+        $string = str_replace('-','',$name);
+
+        $string = str_replace('/','',$string);
+
+        return preg_replace('/\s+/','-',$string);
+
+    }
+}

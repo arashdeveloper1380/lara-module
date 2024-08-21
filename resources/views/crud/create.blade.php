@@ -37,27 +37,27 @@
 
             <div class="form-group col-lg-1">
                 <label for="">title</label>
-                <input type="checkbox" name="support" class="form-control" value="title">
+                <input type="checkbox" name="support[]" class="form-control" value="title">
             </div>
 
             <div class="form-group col-lg-2">
                 <label for="">description</label>
-                <input type="checkbox" name="support" class="form-control" value="desc">
+                <input type="checkbox" name="support[]" class="form-control" value="desc">
             </div>
 
             <div class="form-group col-lg-2">
                 <label for="">thumbnail</label>
-                <input type="checkbox" name="support" class="form-control" value="thumbnail">
+                <input type="checkbox" name="support[]" class="form-control" value="thumbnail">
             </div>
 
             <div class="form-group col-lg-2">
                 <label for="">excerpt</label>
-                <input type="checkbox" name="support" class="form-control" value="excerpt">
+                <input type="checkbox" name="support[]" class="form-control" value="excerpt">
             </div>
 
             <div class="form-group col-lg-2">
                 <label for="">slider</label>
-                <input type="checkbox" name="support" class="form-control" value="slider">
+                <input type="checkbox" name="support[]" class="form-control" value="slider">
             </div>
 
         </div>
@@ -83,7 +83,7 @@
                 <label for="name">
                      قابل develope یا نه
                 </label>
-                <select name="status" class="form-control">
+                <select name="develop_mode" class="form-control">
                     <option value="1">فعال</option>
                     <option value="0">غیر فعای</option>
                 </select>

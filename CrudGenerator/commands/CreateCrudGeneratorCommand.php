@@ -2,6 +2,7 @@
 
 namespace CrudGenerator\commands;
 
+use CrudGenerator\Enums\DeveloperModeEnum;
 use CrudGenerator\Enums\StatusEnum;
 
 final readonly class CreateCrudGeneratorCommand{
@@ -13,6 +14,7 @@ final readonly class CreateCrudGeneratorCommand{
         public string     $table_name,
         public array      $support,
         public StatusEnum $status,
+        public DeveloperModeEnum $developer_mode
     ){}
 
     public function getName() : string{
@@ -39,14 +41,19 @@ final readonly class CreateCrudGeneratorCommand{
         return $this->status;
     }
 
+    public function developerMode() : DeveloperModeEnum{
+        return $this->developer_mode;
+    }
+
     public function arr() :array{
         return [
             'name'      => $this->name,
             'slug'      => $this->slug,
             'desc'      => $this->desc,
-            'tableName' => $this->table_name,
+            'table_name' => $this->table_name,
             'support'   => $this->support,
             'status'    => $this->status,
+            'developer_mode' => $this->developer_mode
         ];
     }
 
@@ -55,9 +62,10 @@ final readonly class CreateCrudGeneratorCommand{
             $data['name'],
             $data['slug'],
             $data['desc'],
-            $data['tableName'],
+            $data['table_name'],
             $data['support'],
-            $data['status']
+            $data['status'],
+            $data['developer_mode']
         );
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('support'); // save array [title, desc, thumbnail, excerpt, slider]
             $table->tinyInteger('status')->default(1);
             $table->text('fields')->nullable();
+            $table->tinyInteger('developer_mode')->default(0);
             $table->timestamps();
         });
     }
