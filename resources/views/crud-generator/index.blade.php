@@ -5,7 +5,7 @@
         لیست کراد ها
     </h2><br>
 
-    <a href="{{ route('crud.create') }}" class="btn btn-primary pull-left">ایجاد کراد جدید</a><br>
+    <a href="{{ route('crud-generator.create') }}" class="btn btn-primary pull-left">ایجاد کراد جدید</a><br>
 
     <input style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;border: 0;border-radius: 5px; width: 300px;" type="text" name="search" class="form-control" placeholder="جست وجو کنید ...!">
     <br>

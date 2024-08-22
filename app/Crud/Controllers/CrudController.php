@@ -2,20 +2,21 @@
 namespace App\Crud\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CrudGenerator;
 
 class CrudController extends Controller {
-    private function getCurrentPath(){
-        return request()->path();
-    }
+
+    private static array $support = [];
 
     public function index() :string{
-//        return DB::table($this->getCurrentPath())->orderByDesc('created_at')->get();
         return $this->getCurrentPath() . "index";
     }
 
     public function create(){
-//        reutnDB::table($this->getCurrentPath())->orderByDesc('created_at')->get();
-        return $this->getCurrentPath() . "create";
+        return view('crud.create', [
+            'crudName'  => $this->crudName(),
+            'support'   => $this->getSupports()
+        ]);
     }
 
     public function store(){
@@ -34,4 +35,22 @@ class CrudController extends Controller {
 
     }
 
+    private function getCurrentPath() :string{
+        return request()->path();
+    }
+
+    private function getCurrentPathExplode() : array{
+        return explode('/', $this->getCurrentPath());
+    }
+
+    private function crudName(){
+        return $this->getCurrentPathExplode()[0];
+    }
+
+    private function getSupports() : ? array{
+        return self::$support = CrudGenerator::query()
+            ->where('name', $this->crudName())
+            ->first()
+            ->support;
+    }
 }

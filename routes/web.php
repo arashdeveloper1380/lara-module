@@ -55,11 +55,11 @@ Route::prefix('modules')->group(function (){
 
 });
 
-Route::prefix('crud-generators')->group(function (){
+Route::prefix('crud-generator-generators')->group(function (){
 
     Route::controller(CrudGenerateController::class)->group(function (){
 
-        Route::resource('crud', CrudGenerateController::class);
+        Route::resource('crud-generator', CrudGenerateController::class);
 
     });
 

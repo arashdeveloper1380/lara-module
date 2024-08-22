@@ -53,10 +53,10 @@
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i>کراد جنیریتور</a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="{{ route('crud.index') }}" class="nav-link"><i class="icon-puzzle"></i>لیست crud ها</a>
+                        <a href="{{ route('crud-generator.index') }}" class="nav-link"><i class="icon-puzzle"></i>لیست crud ها</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('crud.create') }}"><i class="icon-puzzle"></i>ایجاد crud</a>
+                        <a class="nav-link" href="{{ route('crud-generator.create') }}"><i class="icon-puzzle"></i>ایجاد crud</a>
                     </li>
                 </ul>
             </li>

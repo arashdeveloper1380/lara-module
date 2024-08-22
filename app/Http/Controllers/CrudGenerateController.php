@@ -23,11 +23,11 @@ class CrudGenerateController extends Controller {
             ->orderByDesc('created_at')
             ->get();
 
-        return view('crud.index', compact('cruds'));
+        return view('crud-generator.index', compact('cruds'));
     }
 
     public function create() :View{
-        return view('crud.create');
+        return view('crud-generator.create');
     }
 
     public function store(Request $request) :RedirectResponse {
