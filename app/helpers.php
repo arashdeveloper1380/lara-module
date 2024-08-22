@@ -105,7 +105,7 @@ if(!function_exists('crudRoutes')){
     function crudRoutes(){
         return DB::table('crud_generator')
             ->where('status', 1)
-            ->select('slug')
+            ->select('slug', 'name')
             ->get();
     }
 }

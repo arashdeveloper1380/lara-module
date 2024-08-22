@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\CrudGenerator;
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
 use CrudGenerator\Contracts\Repositories\CrudRepositoryContract;
 use CrudGenerator\Enums\DeveloperModeEnum;
@@ -17,8 +18,12 @@ class CrudGenerateController extends Controller {
         public CrudRepositoryContract $contract
     ){}
 
-    public function index(){
-        //
+    public function index() :View{
+        $cruds = CrudGenerator::query()
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('crud.index', compact('cruds'));
     }
 
     public function create() :View{
@@ -46,7 +51,7 @@ class CrudGenerateController extends Controller {
 
         $command = new CreateCrudGeneratorCommand(
             $request->get('name'),
-            slugGenerator($request->get('name')),//generate slug by name
+            slugGenerator($request->get('name')),
             $request->get('desc'),
             $table_name,
             $supports,
@@ -72,7 +77,7 @@ class CrudGenerateController extends Controller {
     }
 
     private function isDevelopMod($request) :int{
-        return (int)$request->get('develop_mode');
+        return (int) $request->get('develop_mode');
     }
 
     private function generateMigrationName($request) :string{
@@ -102,7 +107,6 @@ class CrudGenerateController extends Controller {
                 $table->timestamps();
             });
         }
-
     }
 
     private function migrateCommand(string $tableName) :void{
@@ -131,6 +135,7 @@ class CrudGenerateController extends Controller {
         if (file_exists($timestampFilePath)) {
             rename($timestampFilePath, $newMigrationFilePath);
         }
+
         if (file_exists($newMigrationFilePath)) {
             $stubPath = resource_path('stubs/customMigration.stub');
 
@@ -141,10 +146,10 @@ class CrudGenerateController extends Controller {
             foreach ($supports as $support) {
                 $schemaBlueprint .= match ($support) {
                     'title'         => "\$table->string('title');\n",
-                    'desc'          => "\$table->string('desc');\n",
-                    'thumbnail'     => "\$table->string('thumbnail');\n",
-                    'excerpt'       => "\$table->string('excerpt');\n",
-                    'slider'        => "\$table->string('slider');\n",
+                    'desc'          => "\$table->text('desc');\n",
+                    'thumbnail'     => "\$table->text('thumbnail');\n",
+                    'excerpt'       => "\$table->text('excerpt');\n",
+                    'slider'        => "\$table->text('slider');\n",
                     default         => '',
                 };
             }

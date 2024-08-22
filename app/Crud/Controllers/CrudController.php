@@ -1,14 +1,21 @@
 <?php
 namespace App\Crud\Controllers;
 
-class CrudController {
+use App\Http\Controllers\Controller;
+
+class CrudController extends Controller {
+    private function getCurrentPath(){
+        return request()->path();
+    }
 
     public function index() :string{
-        return "index page";
+//        return DB::table($this->getCurrentPath())->orderByDesc('created_at')->get();
+        return $this->getCurrentPath() . "index";
     }
 
     public function create(){
-
+//        reutnDB::table($this->getCurrentPath())->orderByDesc('created_at')->get();
+        return $this->getCurrentPath() . "create";
     }
 
     public function store(){
