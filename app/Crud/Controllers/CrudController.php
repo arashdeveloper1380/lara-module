@@ -3,6 +3,7 @@ namespace App\Crud\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CrudGenerator;
+use Illuminate\Http\Request;
 
 class CrudController extends Controller {
 
@@ -15,11 +16,11 @@ class CrudController extends Controller {
     public function create(){
         return view('crud.create', [
             'crudName'  => $this->crudName(),
-            'support'   => $this->getSupports()
+            'supports'   => $this->getSupports()
         ]);
     }
 
-    public function store(){
+    public function store(Request $request){
 
     }
 
