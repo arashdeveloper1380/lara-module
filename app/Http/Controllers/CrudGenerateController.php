@@ -95,11 +95,11 @@ class CrudGenerateController extends Controller {
 
                 foreach ($supports as $support){
                     match ($support){
-                        'title'         => $table->string('title'),
-                        'desc'          => $table->string('desc'),
-                        'thumbnail'     => $table->string('thumbnail'),
-                        'excerpt'       => $table->string('excerpt'),
-                        'slider'        => $table->string('slider'),
+                        'title'         => $table->string('title')->nullable(),
+                        'desc'          => $table->string('desc')->nullable(),
+                        'thumbnail'     => $table->string('thumbnail')->nullable(),
+                        'excerpt'       => $table->string('excerpt')->nullable(),
+                        'slider'        => $table->string('slider')->nullable(),
                         default         => null
                     };
                 }

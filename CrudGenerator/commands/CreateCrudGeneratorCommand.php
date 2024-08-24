@@ -5,7 +5,7 @@ namespace CrudGenerator\commands;
 use CrudGenerator\Enums\DeveloperModeEnum;
 use CrudGenerator\Enums\StatusEnum;
 
-final readonly class CreateCrudGeneratorCommand{
+final class CreateCrudGeneratorCommand{
 
     public function __construct(
         public string     $name,
