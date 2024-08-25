@@ -18,6 +18,7 @@ class CrudController extends Controller {
     public function index() :View{
 
         $curdData = DB::table($this->crudName())->orderByDesc('id')->get();
+        
         return view('crud.index', [
             'crudName'  => $this->crudName(),
             'supports'  => $this->getSupports(),
@@ -58,8 +59,8 @@ class CrudController extends Controller {
 
     }
 
-    public function destory(){
-
+    public function destroy(int $id){
+        
     }
 
     private function getCurrentPath() :string{

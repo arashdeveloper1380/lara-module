@@ -16,6 +16,7 @@
                 @foreach ($supports as $item)
                     <th style="text-align: center">{{ $item }}</th>
                 @endforeach
+                <th style="text-align: center">مدیریت</th>
             </tr>
         </thead>
         <tbody style="text-align: center">
@@ -29,6 +30,15 @@
                         </td>
                     @endforelse
                 @endforeach
+                <th style="text-align: center; vertical-align: middle">
+                    <a href="" class="btn btn-warning">ویرایش</a>
+                    <form action="{{ route("$crudName.destroy", $item->id) }}" style="display: contents" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    </form>
+                    
+                </th>
             </tr>
         </tbody>
 
