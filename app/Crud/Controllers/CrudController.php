@@ -9,13 +9,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\View\View;
 
 class CrudController extends Controller {
 
     private static array $support = [];
 
-    public function index() :string{
-        return $this->getCurrentPath() . "index";
+    public function index() :View{
+
+        $curdData = DB::table($this->crudName())->orderByDesc('id')->get();
+        return view('crud.index', [
+            'crudName'  => $this->crudName(),
+            'supports'  => $this->getSupports(),
+            'curdData'  => $curdData
+        ]);
     }
 
     public function create(){
@@ -29,13 +36,13 @@ class CrudController extends Controller {
     
         $crudName = $request->get('crud_name');
 
-        $exist          = $this->isCrudExist($crudName);
+        $exist = $this->isCrudExist($crudName);
 
         $this->returnExceptionWhenTableNotExist($exist, $crudName);
 
-        $supports       = $this->getCurrentCrudSupports($crudName);
+        $supports = $this->getCurrentCrudSupports($crudName);
 
-        $dataSupports   = $this->getDataSupports($supports, $request);
+        $dataSupports = $this->getDataSupports($supports, $request);
 
         DB::table($crudName)->insert($dataSupports);
 
