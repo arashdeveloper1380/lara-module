@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CrudGenerator;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -24,23 +25,22 @@ class CrudController extends Controller {
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request) : RedirectResponse{
     
         $crudName = $request->get('crud_name');
 
-        $exist = $this->isCrudExist($crudName);
+        $exist          = $this->isCrudExist($crudName);
 
         $this->returnExceptionWhenTableNotExist($exist, $crudName);
 
-        DB::table($crudName)->insert([
-            'title'         => $request->get('title') ?? null,
-            'desc'          => $request->get('desc') ?? null,
-            'thumbnail'     => $request->get('thumbnail') ?? null,
-            'excerpt'       => $request->get('excerpt') ?? null,
-            'created_at'    => Carbon::now()
-        ]);
+        $supports       = $this->getCurrentCrudSupports($crudName);
 
-        dd("create");
+        $dataSupports   = $this->getDataSupports($supports, $request);
+
+        DB::table($crudName)->insert($dataSupports);
+
+        return redirect()->route('blog.index');
+
     }
 
     public function show(){
@@ -87,5 +87,22 @@ class CrudController extends Controller {
             throw new Exception("Table {$crudName} not found!");
         }
         return true;
+    }
+
+    private function getCurrentCrudSupports(string $crudName){
+        return CrudGenerator::query()
+            ->where('name', $crudName)
+            ->first()
+            ->support;
+    }
+
+    private function getDataSupports(array $supports, $request) : array{
+        $dataSupports = [];
+
+        foreach($supports as $value){
+            $dataSupports[$value] = $request->get($value);
+        }
+
+        return $dataSupports;
     }
 }

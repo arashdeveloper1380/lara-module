@@ -7,7 +7,7 @@
             </li>
             <hr class="bg-faded">
             <span class="p-l-1 font-xs text-info">ماژول ها</span>
-                @foreach(getModuleRoutes() as $route)
+                @forelse(getModuleRoutes() as $route)
 
                     @if(isEnableModules(strtoupper($route->uri)))
 
@@ -33,7 +33,11 @@
 
                     @endif
 
-                @endforeach
+                    @empty
+
+                    <p class="text-danger" style="text-align: center">ماژولی پیدا نشد</p>
+
+                @endforelse
 
             <hr class="bg-faded">
             <span class="p-l-1 font-xs text-info">سازنده</span>
@@ -77,7 +81,7 @@
                     </ul>
                 </li>
             @empty
-                <p class="text-danger">پیدا نشد</p>
+                <p class="text-danger" style="text-align: center">کرادی پیدا نشد</p>
             @endforelse
 
         </ul>

@@ -9,6 +9,6 @@
 <script src="{{ asset('admin/js/libs/jquery.min.js') }}"></script>
 <script src="{{ asset('admin/js/libs/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/js/app.js') }}"></script>
-<script src="{{ asset('admin/js/views/main.js') }}"></script>
+
 </body>
 </html>
