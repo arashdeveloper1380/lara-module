@@ -18,7 +18,7 @@ class CrudController extends Controller {
     public function index() :View{
 
         $curdData = DB::table($this->crudName())->orderByDesc('id')->get();
-        
+
         return view('crud.index', [
             'crudName'  => $this->crudName(),
             'supports'  => $this->getSupports(),
@@ -34,7 +34,7 @@ class CrudController extends Controller {
     }
 
     public function store(Request $request) : RedirectResponse{
-    
+
         $crudName = $request->get('crud_name');
 
         $exist = $this->isCrudExist($crudName);
@@ -60,7 +60,7 @@ class CrudController extends Controller {
     }
 
     public function destroy(int $id){
-        
+        dd($id);
     }
 
     private function getCurrentPath() :string{
@@ -89,7 +89,7 @@ class CrudController extends Controller {
             return false;
         }
     }
-    
+
     private function returnExceptionWhenTableNotExist(string $exist, string $crudName){
         if(!$exist){
             throw new Exception("Table {$crudName} not found!");
