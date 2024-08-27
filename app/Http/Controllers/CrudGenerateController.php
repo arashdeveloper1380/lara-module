@@ -68,6 +68,13 @@ class CrudGenerateController extends Controller {
         //
     }
 
+    // add meta_field crud no edit
+    public function edit(int $id){
+        $crud = CrudGenerator::query()->find($id);
+        return view('crud-generator.add_meta_field', compact('crud'));
+    }
+
+    // save and update meta_field current crud
     public function update() {
         //
     }
