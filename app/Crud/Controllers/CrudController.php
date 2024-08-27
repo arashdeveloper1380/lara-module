@@ -3,7 +3,6 @@ namespace App\Crud\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CrudGenerator;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +25,7 @@ class CrudController extends Controller {
         ]);
     }
 
-    public function create(){
+    public function create() :View{
         return view('crud.create', [
             'crudName'  => $this->crudName(),
             'supports'  => $this->getSupports()
@@ -55,12 +54,35 @@ class CrudController extends Controller {
 
     }
 
-    public function update(){
+    public function edit(int $id) :View{
+
+        $crudData = DB::table($this->crudName())->find($id);
+
+        return view('crud.edit', [
+            'crudName'  => $this->crudName(),
+            'data'      => $crudData,
+            'supports'  => $this->getSupports(),
+        ]);
 
     }
 
-    public function destroy(int $id){
-        dd($id);
+    public function update(int $id, Request $request) : RedirectResponse{
+        $crudName = $request->get('crud_name');
+
+        $exist = $this->isCrudExist($crudName);
+        $this->returnExceptionWhenTableNotExist($exist, $crudName);
+
+        $supports = $this->getCurrentCrudSupports($crudName);
+        $dataSupports = $this->getDataSupports($supports, $request);
+
+        DB::table($crudName)->where('id', $id)->update($dataSupports);
+
+        return redirect()->route('blog.index');
+    }
+
+    public function destroy(int $id) : RedirectResponse{
+        DB::table($this->crudName())->where('id', $id)->delete();
+        return redirect()->route('blog.index');
     }
 
     private function getCurrentPath() :string{
@@ -90,9 +112,9 @@ class CrudController extends Controller {
         }
     }
 
-    private function returnExceptionWhenTableNotExist(string $exist, string $crudName){
+    private function returnExceptionWhenTableNotExist(string $exist, string $crudName) : Exception|bool{
         if(!$exist){
-            throw new Exception("Table {$crudName} not found!");
+            throw new Exception("Table $crudName not found!");
         }
         return true;
     }

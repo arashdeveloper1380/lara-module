@@ -17,6 +17,7 @@ if(!function_exists('getModuleRoutes')){
             $dynamicRoutes[] = "$route/{$route}";
             $dynamicRoutes[] = "$route/{$route}/edit";
             $dynamicRoutes[] = "$route/create";
+            $dynamicRoutes[] = 'export-module/{category}';
         }
 
         $excludeRoutes = [
@@ -30,7 +31,6 @@ if(!function_exists('getModuleRoutes')){
             'disable/{name}',
             'install/{name}',
             'uninstall/{name}',
-            'export-module/{category}',
             'modules/upload-module',
             'modules/store-upload-module',
         ];

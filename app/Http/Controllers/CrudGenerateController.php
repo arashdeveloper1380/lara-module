@@ -95,11 +95,11 @@ class CrudGenerateController extends Controller {
 
                 foreach ($supports as $support){
                     match ($support){
-                        'title'         => $table->string('title')->nullable(),
-                        'desc'          => $table->string('desc')->nullable(),
-                        'thumbnail'     => $table->string('thumbnail')->nullable(),
-                        'excerpt'       => $table->string('excerpt')->nullable(),
-                        'slider'        => $table->string('slider')->nullable(),
+                        'title'         => $table->text('title')->nullable(),
+                        'desc'          => $table->text('desc')->nullable(),
+                        'thumbnail'     => $table->text('thumbnail')->nullable(),
+                        'excerpt'       => $table->text('excerpt')->nullable(),
+                        'slider'        => $table->text('slider')->nullable(),
                         default         => null
                     };
                 }
@@ -145,7 +145,7 @@ class CrudGenerateController extends Controller {
 
             foreach ($supports as $support) {
                 $schemaBlueprint .= match ($support) {
-                    'title'         => "\$table->string('title')->nullable();\n",
+                    'title'         => "\$table->text('title')->nullable();\n",
                     'desc'          => "\$table->text('desc')->nullable();\n",
                     'thumbnail'     => "\$table->text('thumbnail')->nullable();\n",
                     'excerpt'       => "\$table->text('excerpt')->nullable();\n",
