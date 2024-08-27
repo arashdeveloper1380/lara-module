@@ -47,13 +47,13 @@ final class CreateCrudGeneratorCommand{
 
     public function arr() :array{
         return [
-            'name'      => $this->name,
-            'slug'      => $this->slug,
-            'desc'      => $this->desc,
-            'table_name' => $this->table_name,
-            'support'   => $this->support,
-            'status'    => $this->status,
-            'developer_mode' => $this->developer_mode
+            'name'          => $this->name,
+            'slug'          => $this->slug,
+            'desc'          => $this->desc,
+            'table_name'    => $this->table_name,
+            'support'       => $this->support,
+            'status'        => $this->status,
+            'developer_mode'=> $this->developer_mode
         ];
     }
 
