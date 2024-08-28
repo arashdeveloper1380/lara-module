@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\CrudGenerator;
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
-use CrudGenerator\Contracts\Repositories\CrudRepositoryContract;
+use CrudGenerator\Contracts\Repositories\CrudGeneratorRepositoryContract;
 use CrudGenerator\Enums\DeveloperModeEnum;
 use CrudGenerator\Enums\StatusEnum;
 use Illuminate\Contracts\View\View;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Schema;
 class CrudGenerateController extends Controller {
 
     public function __construct(
-        public CrudRepositoryContract $contract
+        public CrudGeneratorRepositoryContract $contract
     ){}
 
     public function index() :View{

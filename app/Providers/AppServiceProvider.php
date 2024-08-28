@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Crud\Contract\CrudRepositoryContract;
+use App\Crud\Repositories\CrudRepository;
 use App\Services\ModuleState\Contracts\ModuleManagementContract;
 use App\Services\ModuleState\Repositories\ModuleManagementRepo;
 use App\Services\UploadModule\Contracts\UploadModuleContract;
 use App\Services\UploadModule\Repositories\UploadModuleRepo;
-use CrudGenerator\Contracts\Repositories\CrudRepositoryContract;
-use CrudGenerator\repositories\Write\CrudGeneratorRepository;
+use CrudGenerator\Contracts\Repositories\CrudGeneratorRepositoryContract;
+use CrudGenerator\repositories\Write\CrudGeneratorGeneratorRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,10 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
 
     private static array $repos = [
-        ModuleManagementContract::class => ModuleManagementRepo::class,
-        UploadModuleContract::class => UploadModuleRepo::class,
-
-        CrudRepositoryContract::class => CrudGeneratorRepository::class,
+        ModuleManagementContract::class         => ModuleManagementRepo::class,
+        UploadModuleContract::class             => UploadModuleRepo::class,
+        CrudGeneratorRepositoryContract::class  => CrudGeneratorGeneratorRepository::class,
+        CrudRepositoryContract::class           => CrudRepository::class
     ];
 
     public function register(): void{

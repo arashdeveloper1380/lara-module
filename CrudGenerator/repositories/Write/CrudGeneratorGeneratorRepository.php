@@ -3,9 +3,9 @@
 namespace CrudGenerator\repositories\Write;
 use App\Models\CrudGenerator;
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
-use CrudGenerator\Contracts\Repositories\CrudRepositoryContract;
+use CrudGenerator\Contracts\Repositories\CrudGeneratorRepositoryContract;
 
-class CrudGeneratorRepository implements CrudRepositoryContract {
+class CrudGeneratorGeneratorRepository implements CrudGeneratorRepositoryContract {
 
     public function create(
         CreateCrudGeneratorCommand $command

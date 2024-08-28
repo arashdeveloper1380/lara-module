@@ -1,22 +1,25 @@
 <?php
 namespace App\Crud\Controllers;
 
+use App\Crud\Contract\CrudRepositoryContract;
 use App\Http\Controllers\Controller;
-use App\Models\CrudGenerator;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class CrudController extends Controller {
+
+    public function __construct(
+        public CrudRepositoryContract $contract
+    ){}
 
     private static array $support = [];
 
     public function index() :View{
 
-        $curdData = DB::table($this->crudName())->orderByDesc('id')->get();
+        $curdData = $this->contract->getCrudData($this->crudName());
 
         return view('crud.index', [
             'crudName'  => $this->crudName(),
@@ -36,13 +39,13 @@ class CrudController extends Controller {
 
         $crudName = $request->get('crud_name');
 
-        $exist = $this->isCrudExist($crudName);
+        $exist = $this->contract->isCrudExist($crudName);
 
         $this->returnExceptionWhenTableNotExist($exist, $crudName);
 
-        $supports = $this->getCurrentCrudSupports($crudName);
+        $supports = $this->contract->getCurrentCrudSupports($crudName);
 
-        $dataSupports = $this->getDataSupports($supports, $request);
+        $dataSupports = $this->contract->getDataSupports($supports, $request);
 
         DB::table($crudName)->insert($dataSupports);
 
@@ -56,7 +59,9 @@ class CrudController extends Controller {
 
     public function edit(int $id) :View{
 
-        $crudData = DB::table($this->crudName())->find($id);
+        $crudData = $this->contract->findCrudDataForEdit(
+            $this->crudName(), $id
+        );
 
         return view('crud.edit', [
             'crudName'  => $this->crudName(),
@@ -69,11 +74,13 @@ class CrudController extends Controller {
     public function update(int $id, Request $request) : RedirectResponse{
         $crudName = $request->get('crud_name');
 
-        $exist = $this->isCrudExist($crudName);
+        $exist = $this->contract->isCrudExist($crudName);
+
         $this->returnExceptionWhenTableNotExist($exist, $crudName);
 
-        $supports = $this->getCurrentCrudSupports($crudName);
-        $dataSupports = $this->getDataSupports($supports, $request);
+        $supports = $this->contract->getCurrentCrudSupports($crudName);
+
+        $dataSupports = $this->contract->getDataSupports($supports, $request);
 
         DB::table($crudName)->where('id', $id)->update($dataSupports);
 
@@ -98,18 +105,9 @@ class CrudController extends Controller {
     }
 
     private function getSupports() : ? array{
-        return self::$support = CrudGenerator::query()
-            ->where('name', $this->crudName())
-            ->first()
-            ->support;
-    }
-
-    private function isCrudExist(string $crudName) : bool{
-        if (Schema::hasTable($crudName)) {
-            return true;
-        }else{
-            return false;
-        }
+        return self::$support = $this->contract->getSupports(
+            $this->crudName()
+        );
     }
 
     private function returnExceptionWhenTableNotExist(string $exist, string $crudName) : Exception|bool{
@@ -117,22 +115,5 @@ class CrudController extends Controller {
             throw new Exception("Table $crudName not found!");
         }
         return true;
-    }
-
-    private function getCurrentCrudSupports(string $crudName){
-        return CrudGenerator::query()
-            ->where('name', $crudName)
-            ->first()
-            ->support;
-    }
-
-    private function getDataSupports(array $supports, $request) : array{
-        $dataSupports = [];
-
-        foreach($supports as $value){
-            $dataSupports[$value] = $request->get($value);
-        }
-
-        return $dataSupports;
     }
 }

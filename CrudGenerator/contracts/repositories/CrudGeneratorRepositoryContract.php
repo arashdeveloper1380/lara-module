@@ -4,6 +4,6 @@ namespace CrudGenerator\Contracts\Repositories;
 
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
 
-interface CrudRepositoryContract{
+interface CrudGeneratorRepositoryContract{
     public function create(CreateCrudGeneratorCommand $command);
 }
