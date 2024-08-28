@@ -110,7 +110,9 @@ class CrudController extends Controller {
         );
     }
 
-    private function returnExceptionWhenTableNotExist(string $exist, string $crudName) : Exception|bool{
+    private function returnExceptionWhenTableNotExist(
+        string $exist, string $crudName
+    ) : Exception|bool{
         if(!$exist){
             throw new Exception("Table $crudName not found!");
         }

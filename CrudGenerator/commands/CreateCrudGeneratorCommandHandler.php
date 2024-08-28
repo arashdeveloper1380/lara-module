@@ -2,12 +2,12 @@
 
 namespace CrudGenerator\commands;
 
-use CrudGenerator\Contracts\CrudRepositoryContract;
+use CrudGenerator\Contracts\Repositories\CrudGeneratorRepositoryContract;
 
 class CreateCrudGeneratorCommandHandler
 {
     public function __construct(
-        public CrudRepositoryContract $contract
+        public CrudGeneratorRepositoryContract $contract
     ){}
 
     public function handle(CreateCrudGeneratorCommand $command) :void{

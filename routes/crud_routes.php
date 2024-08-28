@@ -9,10 +9,9 @@ Route::controller(CrudController::class)
     foreach (crudRoutes() as $value){
 
         Route::resource(
-            "$value->slug", 
+            "$value->slug",
             CrudController::class
         );
     }
 
 });
-

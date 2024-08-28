@@ -4,7 +4,7 @@ namespace App\Crud\Contract;
 
 use Illuminate\Http\Request;
 
-interface CrudRepositoryContract{
+interface CrudRepositoryContract {
 
     public function getDataSupports(
         array $supports, Request $request
