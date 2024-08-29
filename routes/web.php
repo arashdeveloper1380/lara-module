@@ -61,6 +61,12 @@ Route::prefix('crud-generator-generators')->group(function (){
 
         Route::resource('crud-generator', CrudGenerateController::class);
 
+        Route::get('/add-meta/{id}', [CrudGenerateController::class, 'AddMeta'])
+            ->name('crud-generator.add-meta');
+
+        Route::post('/add-meta/{id}', [CrudGenerateController::class, 'AddMetaStore'])
+            ->name('crud-generator.add-meta-store');
+
     });
 
 });

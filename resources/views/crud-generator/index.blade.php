@@ -37,7 +37,7 @@
                     </td>
                     <td style="text-align: center; width: 10%; vertical-align: middle">{{ $value->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
                     <td style="text-align: center; vertical-align: middle">
-                        <a href="{{ route('crud-generator.edit', $value->id) }}" class="btn btn-info">فیلد های سفارشی</a>
+                        <a href="{{ route('crud-generator.add-meta', $value->id) }}" class="btn btn-info">فیلد های سفارشی</a>
                         <form action="{{ route('crud-generator.destroy', $value->id) }}" style="display: contents" method="POST">
                             @csrf
                             @method('DELETE')
