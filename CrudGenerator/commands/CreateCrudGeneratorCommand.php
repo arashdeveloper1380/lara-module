@@ -8,13 +8,13 @@ use CrudGenerator\Enums\StatusEnum;
 final class CreateCrudGeneratorCommand{
 
     public function __construct(
-        public string     $name,
-        public string     $slug,
-        public string     $desc,
-        public string     $table_name,
-        public array      $support,
-        public StatusEnum $status,
-        public DeveloperModeEnum $developer_mode
+        private string     $name,
+        private string     $slug,
+        private string     $desc,
+        private string     $table_name,
+        private array      $support,
+        private StatusEnum $status,
+        private DeveloperModeEnum $developer_mode
     ){}
 
     public function getName() : string{

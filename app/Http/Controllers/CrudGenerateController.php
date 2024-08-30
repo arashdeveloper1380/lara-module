@@ -64,26 +64,40 @@ class CrudGenerateController extends Controller {
         return redirect()->back();
     }
 
-    public function show() {
-        //
-    }
-
     public function addMeta(int $id){
+        
         $crud = CrudGenerator::query()->find($id);
-        return view('crud-generator.add_meta_field', compact('crud'));
+        $getMetaTable = $crud->fields;
+
+        return view('crud-generator.add_meta_field', compact('crud', 'getMetaTable'));
     }
 
-    public function AddMetaStore(Request $request){
+    public function AddMetaStore(Request $request) : RedirectResponse{
 
-    }
+        $tableName = $request->get('name');
+        $crudName = $request->get('crud_name');
 
-    public function edit(int $id){
-        //
-    }
+        if(!Schema::hasTable($tableName)){
 
-    // save and update meta_field current crud
-    public function update(Request $request, int $id) {
-        dd($request->all());
+            Schema::create($tableName, function($table){
+                $table->id();
+
+                $table->string('meta_key')->nullable();
+                $table->text('meta_value')->nullable();
+                $table->string('type')->default('text'); // select - checkbox - radio ... 
+                
+                $table->timestamps();
+            });
+
+        }else{
+            return redirect()->back()->with('meta_table_exist', 'جدول متا از قبل وجود دارد');  
+        }
+
+        CrudGenerator::query()
+            ->where('name', $crudName)
+            ->update(['fields' => $tableName]);
+
+            return redirect()->back();
     }
 
     public function destroy() {

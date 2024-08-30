@@ -7,10 +7,12 @@ use CrudGenerator\Contracts\Repositories\CrudGeneratorRepositoryContract;
 class CreateCrudGeneratorCommandHandler
 {
     public function __construct(
-        public CrudGeneratorRepositoryContract $contract
+        private CrudGeneratorRepositoryContract $contract
     ){}
 
-    public function handle(CreateCrudGeneratorCommand $command) :void{
+    public function handle(
+        CreateCrudGeneratorCommand $command
+    ) :void{
         $this->contract->create($command);
     }
 }
