@@ -105,17 +105,17 @@ class CrudGenerateController extends Controller {
     public function AddMetaFieldStore(Request $request){
 
         $request->validate([
-            'meta_key.*' => 'required|string',
-            'type.*' => 'required|string',
+            'meta_key.*'    => 'required|string',
+            'type.*'        => 'required|string',
             'return_type.*' => 'required|string',
         ]);
 
 
-        $crud_name = $request->get('crud_name');
-        $metaTable = CrudGenerator::query()->where('name', $crud_name)->first()->fields;
-        $metaKeys = $request->input('meta_key');
-        $types = $request->input('type');
-        $returnTypes = $request->input('return_type');
+        $crud_name      = $request->get('crud_name');
+        $metaTable      = CrudGenerator::query()->where('name', $crud_name)->first()->fields;
+        $metaKeys       = $request->input('meta_key');
+        $types          = $request->input('type');
+        $returnTypes    = $request->input('return_type');
 
         $dataToInsert = [];
 
