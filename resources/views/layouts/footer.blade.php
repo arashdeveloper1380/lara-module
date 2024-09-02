@@ -10,5 +10,7 @@
 <script src="{{ asset('admin/js/libs/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admin/js/app.js') }}"></script>
 
+@yield('footer')
+
 </body>
 </html>

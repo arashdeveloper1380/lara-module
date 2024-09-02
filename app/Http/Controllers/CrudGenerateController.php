@@ -10,12 +10,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CrudGenerateController extends Controller {
 
     public function __construct(
-        public CrudGeneratorRepositoryContract $contract
+        public CrudGeneratorRepositoryContract $contract,
     ){}
 
     public function index() :View{
@@ -85,6 +86,7 @@ class CrudGenerateController extends Controller {
                 $table->string('meta_key')->nullable();
                 $table->text('meta_value')->nullable();
                 $table->string('type')->default('text'); // select - checkbox - radio ... 
+                $table->string('return_type')->nullable(); // array - string - bool ...
                 
                 $table->timestamps();
             });
@@ -95,9 +97,41 @@ class CrudGenerateController extends Controller {
 
         CrudGenerator::query()
             ->where('name', $crudName)
-            ->update(['fields' => $tableName]);
+            ->update(['fields' => $this->tableName]);
 
             return redirect()->back();
+    }
+
+    public function AddMetaFieldStore(Request $request){
+
+        $request->validate([
+            'meta_key.*' => 'required|string',
+            'type.*' => 'required|string',
+            'return_type.*' => 'required|string',
+        ]);
+
+
+        $crud_name = $request->get('crud_name');
+        $metaTable = CrudGenerator::query()->where('name', $crud_name)->first()->fields;
+        $metaKeys = $request->input('meta_key');
+        $types = $request->input('type');
+        $returnTypes = $request->input('return_type');
+
+        $dataToInsert = [];
+
+        foreach ($metaKeys as $index => $metaKey) {
+            $dataToInsert[] = [
+                'meta_key'      => $metaKey,
+                'type'          => $types[$index],
+                'return_type'   => $returnTypes[$index],
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ];
+        }
+
+        DB::table($metaTable)->insert($dataToInsert);
+
+        return redirect()->back();
     }
 
     public function destroy() {
