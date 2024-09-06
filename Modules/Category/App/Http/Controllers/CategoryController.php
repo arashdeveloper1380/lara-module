@@ -49,6 +49,7 @@ class CategoryController extends Controller
     }
 
     private function setDataOnCommand($validate, $imagePath){
+
         return new CreateCategoryCommand(
             name    : $validate['name'],
             slug    : $validate['name'], // generate slug by name
@@ -76,12 +77,13 @@ class CategoryController extends Controller
             $request
         );
 
-        //create category on db
+        
         $imagePath = $this->uploadPath . $image;
         $command = $this->setDataOnCommand($dataValidate, $imagePath);
+        
         $create = CreateCategoryJob::dispatch($command);
 
-        //create category on db but pattern outbox
+        
         if(config('category.useOutBox')){
             $commandOutBoxCategory = $this->setDataOnCommandOutBox($command);
             CreateCategoryOutBoxJob::dispatch($commandOutBoxCategory);
@@ -90,6 +92,7 @@ class CategoryController extends Controller
         if(!$create){
             throw new \Exception("Failed Created Category !!!");
         }
+        
         return redirect()->route('category.index');
     }
 

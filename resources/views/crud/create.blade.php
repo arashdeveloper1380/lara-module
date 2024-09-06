@@ -88,6 +88,26 @@
             </div>
         @endif
 
+        <hr>
+        <h3>فیلد های سفارشی : </h3><br>
+        
+        @foreach ($metas as $index => $item)
+            @if ($item)
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <input 
+                            type="{{ $item->type }}" 
+                            class="form-control" 
+                            name="meta-{{ $item->meta_key }}" 
+                            placeholder="{{ $item->meta_key }}
+                        ">
+                    </div>
+                </div>
+            </div>
+            @endif
+        @endforeach
+
         <div class="form-group" style="clear: both">
             <button type="submit" class="btn btn-primary">ذخیره</button>
         </div>

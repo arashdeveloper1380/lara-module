@@ -52,4 +52,5 @@ class CrudRepository implements CrudRepositoryContract{
             ->first()
             ->support;
     }
+
 }

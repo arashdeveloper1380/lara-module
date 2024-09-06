@@ -39,71 +39,74 @@
     <div style="clear: both"></div>
     
 
+    @if ($getMetaTable)
+
     <form action="{{ route('crud-generator.add-meta-filed-store') }}" method="POST">
         @csrf
         <input type="hidden" name="crud_name" value="{{ $crud->name }}">
-        <div class="box">
-            <br>
-            <div style="float: right; padding-left: 10px">
-                <div class="form-group">
-                    <button type="button" value="{{ old('add_field[]') }}" id="add-input-btn" class="btn btn-primery">+</button>
+            <div class="box">
+                <br>
+                <div style="float: right; padding-left: 10px">
+                    <div class="form-group">
+                        <button type="button" value="{{ old('add_field[]') }}" id="add-input-btn" class="btn btn-primery">+</button>
+                    </div>
+                </div>
+                <h5 style="padding-top: 5px; padding-right: 10px">تعریف فیلد ها</h5>
+                
+                <hr>
+                <div class="container">
+                    <div class="row" id="fields-container">
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group">
+
+                                <div id="input-container">
+                                    <label for="name">عنوان فیلد</label>
+                                    <input type="text" name="meta_key[]" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="float: right;">
+                            <div class="form-group">
+
+                                <div id="input-container-saheb_phone">
+                                    <label for="name">نوع فیلد</label>
+                                    <select name="type[]" class="form-control" id="">
+                                        <option value="text">text</option>
+                                        <option value="select">select</option>
+                                        <option value="radio">radio</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="float: right;">
+                            <div class="form-group">
+
+                                <div id="input-container-saheb_phone">
+                                    <label for="name">type</label>
+                                    <select name="return_type[]" class="form-control" id="">
+                                        <option value="string">string</option>
+                                        <option value="array">array</option>
+                                        <option value="bool">bool</option>
+                                        <option value="int">int</option>
+                                    </select>
+                                        
+                                </div>
+
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
-            <h5 style="padding-top: 5px; padding-right: 10px">تعریف فیلد ها</h5>
-            
-            <hr>
-            <div class="container">
-                <div class="row" id="fields-container">
-
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <div class="form-group">
-
-                            <div id="input-container">
-                                <label for="name">عنوان فیلد</label>
-                                <input type="text" name="meta_key[]" class="form-control">
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="float: right;">
-                        <div class="form-group">
-
-                            <div id="input-container-saheb_phone">
-                                <label for="name">نوع فیلد</label>
-                                <select name="type[]" class="form-control" id="">
-                                    <option value="text">text</option>
-                                    <option value="select">select</option>
-                                    <option value="radio">radio</option>
-                                </select>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="float: right;">
-                        <div class="form-group">
-
-                            <div id="input-container-saheb_phone">
-                                <label for="name">type</label>
-                                <select name="return_type[]" class="form-control" id="">
-                                    <option value="string">string</option>
-                                    <option value="array">array</option>
-                                    <option value="bool">bool</option>
-                                    <option value="int">int</option>
-                                </select>
-                                    
-                            </div>
-
-                        </div>
-                    </div>
+            <div class="form-group" style="clear: both">
+                <button type="submit" class="btn btn-primary">ثبت فیلد</button>
             </div>
-        </div>
-    </div>
-    <div class="form-group" style="clear: both">
-        <button type="submit" class="btn btn-primary">ثبت فیلد</button>
-    </div>
-</form>
+        </form>
+    @endif
 
 @endsection
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\CrudGenerator;
+use Carbon\Carbon;
 use CrudGenerator\commands\CreateCrudGeneratorCommand;
 use CrudGenerator\Contracts\Repositories\CrudGeneratorRepositoryContract;
 use CrudGenerator\Enums\DeveloperModeEnum;
@@ -83,6 +84,8 @@ class CrudGenerateController extends Controller {
             Schema::create($tableName, function($table){
                 $table->id();
 
+                $table->integer('crud_data_id')->nulable();
+                $table->string('crud_name')->nulable();
                 $table->string('meta_key')->nullable();
                 $table->text('meta_value')->nullable();
                 $table->string('type')->default('text'); // select - checkbox - radio ... 
@@ -97,7 +100,7 @@ class CrudGenerateController extends Controller {
 
         CrudGenerator::query()
             ->where('name', $crudName)
-            ->update(['fields' => $this->tableName]);
+            ->update(['fields' => $tableName]);
 
             return redirect()->back();
     }
@@ -121,11 +124,12 @@ class CrudGenerateController extends Controller {
 
         foreach ($metaKeys as $index => $metaKey) {
             $dataToInsert[] = [
+                'crud_name'     => $crud_name,
                 'meta_key'      => $metaKey,
                 'type'          => $types[$index],
                 'return_type'   => $returnTypes[$index],
-                'created_at'    => now(),
-                'updated_at'    => now(),
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now(),
             ];
         }
 

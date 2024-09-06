@@ -3,7 +3,10 @@ namespace App\Crud\Controllers;
 
 use App\Crud\Contract\CrudRepositoryContract;
 use App\Http\Controllers\Controller;
+use App\Models\CrudGenerator;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,9 +32,11 @@ class CrudController extends Controller {
     }
 
     public function create() :View{
+        // dd($this->getCrudMetas());
         return view('crud.create', [
             'crudName'  => $this->crudName(),
-            'supports'  => $this->getSupports()
+            'supports'  => $this->getSupports(),
+            'metas'     => $this->getCrudMetas()
         ]);
     }
 
@@ -47,13 +52,36 @@ class CrudController extends Controller {
 
         $dataSupports = $this->contract->getDataSupports($supports, $request);
 
-        DB::table($crudName)->insert($dataSupports);
+        $metaData = collect($request->all())->filter(function($value, $key){
+
+            return strpos($key, 'meta-') === 0;
+
+        })->mapWithKeys(function($value, $key){
+
+            $metaKey = str_replace('meta-', '', $key);
+
+            return [$metaKey => $value];
+
+        })->toArray();
+
+
+        $getLastId = DB::table($crudName)->insertGetId($dataSupports);
+
+        $metaTable = $this->getCrudMetaTable($this->crudName());
+        if(!empty($metaData)){
+            foreach ($metaData as $metaKey => $metaValue) {
+                DB::table($metaTable)->insert([
+                    'crud_data_id'  => $getLastId,
+                    'crud_name'     => $crudName,
+                    'meta_key'      => $metaKey,
+                    'meta_value'    => $metaValue,
+                    'created_at'    => Carbon::now(),
+                    'updated_at'    => Carbon::now(),
+                ]);
+            }
+        }
 
         return redirect()->route('blog.index');
-
-    }
-
-    public function show(){
 
     }
 
@@ -117,5 +145,18 @@ class CrudController extends Controller {
             throw new Exception("Table $crudName not found!");
         }
         return true;
+    }
+
+    private function getCrudMetaTable(string $crudName) : ?string{
+        return CrudGenerator::query()
+            ->where('name', $crudName)
+            ->first()
+            ->fields;
+    }
+
+    private function getCrudMetas() :?object{
+        return DB::table(
+            $this->getCrudMetaTable($this->crudName())
+        )->get();
     }
 }
