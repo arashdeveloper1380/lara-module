@@ -19,7 +19,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-1"></div>
-                    <div class="card text-center col-md-4 mt-3 col-sm-10 p-0">
+                    <div class="card text-center col-md-6 mt-3 col-sm-10 p-0">
                         <form action="{{ route('module.export', 'Category') }}" method="post" class="m-t-2">
                             @csrf
                             <input class="btn btn-outline-primary" type="submit" name="category" value="خروجی گرفتن از ماژول category">
